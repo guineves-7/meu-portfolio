@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guilherme Xavier | Engenharia de Software</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --surface: #16161f;
+      --border: #2a2a3a;
+      --accent: #7b5ea7;
+      --accent2: #c084fc;
+      --accent3: #e879f9;
+      --text: #f0eef8;
+      --muted: #8b8aa0;
+      --card: #1a1a26;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6vw;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10rem 6vw 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,94,167,.25) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,121,249,.1) 0%, transparent 70%);
+      bottom: 0; left: 10%;
+      pointer-events: none;
+      animation: pulse 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: .7; }
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(123,94,167,.15);
+      border: 1px solid rgba(123,94,167,.3);
+      color: var(--accent2);
+      font-size: .8rem;
+      font-weight: 500;
+      padding: .35rem .9rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      width: fit-content;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: blink 1.5s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .2; }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -.04em;
+      animation: fadeUp .6s .1s ease both;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--accent2) 0%, var(--accent3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 1.5rem;
+      max-width: 520px;
+      animation: fadeUp .6s .2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.75rem;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(123,94,167,.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 6vw;
+      position: relative;
+    }
+
+    .section-label {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      margin-bottom: 3rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 6vw;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: .25rem;
+    }
+
+    /* ── PROJECTS ── */
+    #projetos { background: var(--bg2); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s;
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(123,94,167,.2);
+    }
+
+    .project-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(123,94,167,.15);
+      border: 1px solid rgba(123,94,167,.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-type {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: .5rem;
+    }
+
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-size: .75rem;
+      padding: .25rem .7rem;
+      border-radius: 100px;
+      background: rgba(123,94,167,.12);
+      border: 1px solid rgba(123,94,167,.2);
+      color: var(--accent2);
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: var(--accent2);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: gap .2s;
+    }
+
+    .project-link:hover { gap: .7rem; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all .2s;
+    }
+
+    .skill-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .skill-icon { font-size: 1.5rem; }
+
+    .skill-name {
+      font-weight: 500;
+      font-size: .95rem;
+    }
+
+    .skill-level {
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    #contato { background: var(--bg2); }
+
+    .contact-wrapper {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-wrapper .section-label,
+    .contact-wrapper .section-title { text-align: center; }
+
+    .contact-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 6vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">GX</div>
+    <ul>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-tag">Engenharia de Software · UniCEUB</div>
+    <h1>Guilherme<br><span>Xavier.</span></h1>
+    <p class="hero-sub">Estudante de Engenharia de Software apaixonado por desenvolvimento web e construção de soluções que fazem a diferença.</p>
+    <div class="hero-actions">
+      <a href="#projetos" class="btn btn-primary">Ver Projetos →</a>
+      <a href="https://linkedin.com/in/guilherme-xavier-318210313" target="_blank" class="btn btn-outline">LinkedIn</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">Sobre mim</p>
+        <h2 class="section-title">Quem sou eu</h2>
+        <p>Olá! Sou <strong>Guilherme Xavier da Silva Neves</strong>, estudante de <strong>Engenharia de Software no UniCEUB</strong>, em Brasília.</p>
+        <p>Tenho interesse nas áreas de Cybersegurança, Inteligência Artificial e desenvolvimento de jogos. Estou sempre buscando aprender novas tecnologias e aplicá-las em projetos reais.</p>
+        <p>Este repositório reúne meus projetos acadêmicos e pessoais, versionados com Git e publicados com GitHub Pages.</p>
+      </div>
+      <div class="stats-grid reveal">
+        <div class="stat-card">
+          <div class="stat-number">ES</div>
+          <div class="stat-label">Engenharia de Software</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">UniCEUB</div>
+          <div class="stat-label">Instituição de Ensino</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Git</div>
+          <div class="stat-label">Versionamento de Código</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">IA</div>
+          <div class="stat-label">Cyber · IA · Games</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <p class="section-label reveal">Portfólio</p>
+    <h2 class="section-title reveal">Projetos</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-icon">🌐</div>
+        <div class="project-type">Projeto Pessoal</div>
+        <div class="project-name">Site de Portfólio</div>
+        <p class="project-desc">Portfólio pessoal desenvolvido para apresentar minha trajetória acadêmica, habilidades e projetos de forma profissional e acessível.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Google Sites</span>
+        </div>
+        <a href="https://sites.google.com/view/portfolio-guineves/in%C3%ADcio" target="_blank" class="project-link">Acessar site →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon">📁</div>
+        <div class="project-type">Projeto Acadêmico</div>
+        <div class="project-name">PortfolioHUB — GitHub</div>
+        <p class="project-desc">Repositório central com versionamento Git, documentação em README.md e publicação via GitHub Pages. Integrado ao LinkedIn como parte do perfil profissional.</p>
+        <div class="project-tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">GitHub Pages</span>
+          <span class="tag">Markdown</span>
+        </div>
+        <a href="https://github.com/guineves-7" target="_blank" class="project-link">Ver no GitHub →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Tecnologias</p>
+    <h2 class="section-title reveal">Habilidades</h2>
+    <div class="skills-grid">
+      <div class="skill-item reveal">
+        <span class="skill-icon">🔧</span>
+        <div>
+          <div class="skill-name">Git</div>
+          <div class="skill-level">Versionamento</div>
+        </div>
+      </div>
+      <div class="skill-item reveal">
+        <span class="skill-icon">🐙</span>
+        <div>
+          <div class="skill-name">GitHub</div>
+          <div class="skill-level">Repositórios & Colaboração</div>
+        </div>
+      </div>
+      <div class="skill-item reveal">
+        <span class="skill-icon">🌐</span>
+        <div>
+          <div class="skill-name">HTML & CSS</div>
+          <div class="skill-level">Desenvolvimento Web</div>
+        </div>
+      </div>
+      <div class="skill-item reveal">
+        <span class="skill-icon">📝</span>
+        <div>
+          <div class="skill-name">Markdown</div>
+          <div class="skill-level">Documentação</div>
+        </div>
+      </div>
+      <div class="skill-item reveal">
+        <span class="skill-icon">🚀</span>
+        <div>
+          <div class="skill-name">GitHub Pages</div>
+          <div class="skill-level">Deploy & Publicação</div>
+        </div>
+      </div>
+      <div class="skill-item reveal">
+        <span class="skill-icon">💼</span>
+        <div>
+          <div class="skill-name">LinkedIn</div>
+          <div class="skill-level">Perfil Profissional</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="contact-wrapper reveal">
+      <p class="section-label">Vamos conversar</p>
+      <h2 class="section-title">Contato</h2>
+      <p class="contact-desc">Estou disponível para conexões profissionais, colaborações acadêmicas e oportunidades na área de tecnologia.</p>
+      <div class="contact-links">
+        <a href="https://linkedin.com/in/guilherme-xavier-318210313" target="_blank" class="btn btn-primary">LinkedIn →</a>
+        <a href="https://github.com/guineves-7" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://sites.google.com/view/portfolio-guineves/in%C3%ADcio" target="_blank" class="btn btn-outline">Portfólio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">GX</span>
+    <p>© 2026 Guilherme Xavier da Silva Neves · Engenharia de Software · UniCEUB</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
